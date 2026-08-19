@@ -3,5 +3,7 @@
     "@type": "WebSite",
     "name": "{{SITE_TITLE}}",
     "description": "{{SITE_DESCRIPTION}}",
-    "url": "{{SITE_URL}}"
+    "url": "{{SITE_URL}}",
+    "publisher": { "@id": "{{SITE_URL}}#organization" },
+    "inLanguage": "{{LANGUAGE_CODE}}"
 }

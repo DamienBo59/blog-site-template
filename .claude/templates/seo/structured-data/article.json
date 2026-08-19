@@ -1,20 +1,23 @@
 {
     "@context": "https://schema.org",
-    "@type": "BlogPosting",
+    "@type": "Article",
     "headline": "{{TITLE}}",
     "description": "{{DESCRIPTION}}",
     "datePublished": "{{DATE_PUBLISHED}}",
     "dateModified": "{{DATE_MODIFIED}}",
     "wordCount": "{{WORD_COUNT}}",
     "timeRequired": "PT{{READING_TIME}}M",
+    "image": "{{IMAGE_URL}}",
     "author": {
         "@type": "Person",
         "name": "{{AUTHOR_NAME}}",
-        "url": "{{AUTHOR_URL}}"
+        "url": "{{AUTHOR_URL}}",
+        "worksFor": { "@id": "{{SITE_URL}}#organization" }
     },
     "publisher": {
         "@type": "Organization",
-        "name": "{{SITE_TITLE}}"
+        "name": "{{SITE_TITLE}}",
+        "@id": "{{SITE_URL}}#organization"
     },
     "mainEntityOfPage": {
         "@type": "WebPage",

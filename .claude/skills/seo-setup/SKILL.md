@@ -100,9 +100,9 @@ Ce partial genere automatiquement :
 - JSON-LD WebSite (sur l'accueil)
 - JSON-LD Organization (sur l'accueil)
 
-### 7. Configuration auteur
+### 7. Configuration auteur et parametres SEO avances
 
-Dans `hugo.toml`, section `[params]`, verifier/ajouter les informations auteur :
+Dans `hugo.toml`, section `[params]`, verifier/ajouter les informations auteur et les parametres SEO :
 
 ```toml
 [params]
@@ -110,9 +110,57 @@ Dans `hugo.toml`, section `[params]`, verifier/ajouter les informations auteur :
   author_name = "[Nom de l'auteur]"
   author_url = "[URL profil/site de l'auteur]"
   author_job_title = "[Titre/fonction]"
+  default_og_image = "/images/og-default.jpg"
+  logo = "/favicon.svg"
+  founding_year = "[ANNEE]"
+  expertise = ["[DOMAINE 1]", "[DOMAINE 2]", "[DOMAINE 3]"]
+  # og_locale_alternate = "en_US"  # decommenter si site multilingue
 ```
 
-Ces valeurs sont utilisees par le partial `seo-head.html` pour generer le schema Person dans le JSON-LD des articles.
+Ces valeurs sont utilisees par le partial `seo-head.html` pour generer :
+- Le schema Person (auteur) dans le JSON-LD des articles
+- Le schema Organization avec `@id` pour referencement croise entre schemas
+- Les meta tags `og:image` (avec dimensions 1200x630) et `og:locale:alternate`
+- La meta `article:section` pour la categorie
+- Le schema FAQPage JSON-LD automatiquement depuis le frontmatter `faq` des articles
+
+### 8. Page 404
+
+Verifier que le layout 404 est en place :
+- `themes/[theme]/layouts/404.html` existe
+- Il contient des liens vers l'accueil et le blog
+
+### 9. Favicon
+
+Verifier que `static/favicon.svg` existe. Le partial `seo-head.html` le reference automatiquement via `<link rel="icon" type="image/svg+xml">`.
+
+### 10. Configuration articles similaires
+
+Dans `hugo.toml`, verifier/ajouter la configuration des articles similaires :
+
+```toml
+[related]
+  includeNewer = true
+  threshold = 80
+  [[related.indices]]
+    name = "categories"
+    weight = 100
+  [[related.indices]]
+    name = "tags"
+    weight = 80
+```
+
+### 11. Configuration table des matieres
+
+Dans `hugo.toml`, verifier/ajouter :
+
+```toml
+[markup]
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
+    ordered = true
+```
 
 ## Donnees structurees additionnelles
 
@@ -144,7 +192,11 @@ Ce skill peut etre relance pour :
 Apres execution :
 - [ ] `static/robots.txt` existe, contient le bon sitemap URL
 - [ ] `static/llms.txt` existe, decrit correctement le site et liste les articles
-- [ ] `hugo.toml` contient la config sitemap, RSS et auteur
+- [ ] `hugo.toml` contient la config sitemap, RSS, auteur, articles similaires, TOC et params SEO avances
 - [ ] Le sitemap HTML est en place (`content/plan-du-site.md` + layout)
 - [ ] Le partial `seo-head.html` est present et inclus dans `baseof.html`
+- [ ] Le layout `404.html` est present dans le theme
+- [ ] `static/favicon.svg` existe
+- [ ] Le `baseof.html` contient le lien skip-to-content et le `main#main-content`
+- [ ] Les Google Fonts sont charges en non-bloquant (`media="print"` + swap JS)
 - [ ] Build Hugo OK (`hugo`)
