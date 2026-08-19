@@ -1,63 +1,46 @@
-# Prompts avatars des auteurs
+# Prompts avatars des auteurs du parc perso
 
-Style unifie pour tous les avatars : **flat illustration portrait, vector style, soft pastel palette, centered headshot, clean neutral background, friendly professional expression, shoulders up, 1:1 square ratio**.
+Style unifie pour tous les avatars : **flat illustration portrait, vector style, soft pastel palette, centered headshot, clean neutral background, friendly expression, shoulders up, 1:1 square ratio**.
 
 Conventions :
 - Taille cible : 512x512 px
 - Format final : WebP (convertir avec `cwebp -q 85`)
 - Chemin de destination : `static/images/authors/[id].webp`
 
-## Thomas Durand — Tech
+⚠️ **Trois auteurs seulement, et ils ne sont pas interchangeables.** Chacun est un persona du parc qui signe UN blog et porte AUSSI un compte Reddit. Les avatars doivent rester **coherents avec la fiche persona** (age, region, milieu) : un avatar de cadre en costume pour une professeure des ecoles de 35 ans decredibilise la signature. Fiches dans le Drive perso, `100 Areas/seo_freelance/Reddit/parc-reddit/personas/`.
+
+**Ne pas donner un air de photographie.** Le style flat illustration est volontaire : un faux portrait photo-realiste d'une personne qui n'existe pas est le genre de detail qui se retourne contre le site, et une illustration ne pretend rien.
+
+## Hélène Vasseur — Thé et infusions (P01, mamie-the.fr)
+
+Femme de 41 à 48 ans, bibliothécaire dans le Nord. Doit avoir l'air posé et chaleureux, pas expert.
 
 ```
-Flat vector illustration portrait, headshot of a confident man in his mid-30s, short dark brown hair neatly styled, rectangular glasses, slight smile, wearing a dark navy blazer over a light grey shirt, soft pastel palette with muted blue tones, clean neutral background with subtle tech patterns (circuit lines) faintly visible, centered composition, shoulders up, 1:1 square ratio, modern editorial style, friendly professional expression.
+Flat vector illustration portrait, headshot of a calm woman in her mid-forties, shoulder-length wavy auburn hair with a few grey strands, fine reading glasses pushed up on her head, gentle closed-lip smile, wearing a soft moss-green knitted cardigan over a cream blouse, warm pastel palette with sage and terracotta tones, clean neutral background with a faint suggestion of a teapot silhouette, centered composition, shoulders up, 1:1 square ratio, modern editorial style, quietly warm expression.
 ```
 
-Destination : `static/images/authors/thomas-durand.webp`
+Destination : `static/images/authors/helene-vasseur.webp`
 
-## Magalie Ergoz — Mode & beaute
+## Marion Kieffer — Pâtisserie et goûter (P02, gouter-gourmand.fr)
 
-```
-Flat vector illustration portrait, headshot of a stylish woman in her late 20s, long wavy auburn hair, subtle makeup, confident smile, wearing an elegant cream-colored silk blouse with a delicate gold necklace, soft pastel palette with blush pink and rose gold tones, clean neutral background with very faint floral motifs, centered composition, shoulders up, 1:1 square ratio, modern fashion editorial style, warm friendly expression.
-```
-
-Destination : `static/images/authors/magalie-ergoz.webp`
-
-## Claire Beaumont — Maison & renovation
+Femme de 33 à 40 ans, professeure des écoles en Alsace, pâtissière amateur. Doit avoir l'air accessible et actif, jamais chef étoilé.
 
 ```
-Flat vector illustration portrait, headshot of a creative woman in her mid-30s, medium-length wavy brown hair in a casual bun, confident gentle smile, wearing a mustard-yellow loose cardigan over a white t-shirt with a simple geometric pendant, soft pastel palette with warm terracotta and sage green tones, clean neutral background with very subtle architectural line patterns, centered composition, shoulders up, 1:1 square ratio, modern editorial style, approachable artistic expression.
+Flat vector illustration portrait, headshot of a friendly woman in her mid-thirties, dark brown hair tied back in a loose bun with a few loose strands, open smile showing warmth, wearing a soft coral apron strap over a light chambray shirt, warm pastel palette with butter yellow and coral tones, clean neutral background with a faint suggestion of a round cake tin, centered composition, shoulders up, 1:1 square ratio, modern editorial style, approachable everyday expression.
 ```
 
-Destination : `static/images/authors/claire-beaumont.webp`
+Destination : `static/images/authors/marion-kieffer.webp`
 
-## Laura Verdier — Sante & bien-etre
+## Bastien Delorme — Brunch et petit déjeuner (P03, brunch-story.fr)
 
-```
-Flat vector illustration portrait, headshot of a radiant woman in her early 30s, shoulder-length straight blonde hair, natural minimal makeup, calm warm smile, wearing a soft sage-green linen shirt, soft pastel palette with mint green and cream tones, clean neutral background with very subtle leaf or herb motifs, centered composition, shoulders up, 1:1 square ratio, modern wellness editorial style, serene friendly expression.
-```
-
-Destination : `static/images/authors/laura-verdier.webp`
-
-## Kevin Moreau — Transport & mobilite
+Homme de 26 à 32 ans, citadin lyonnais. Doit avoir l'air jeune actif décontracté, jamais critique gastronomique.
 
 ```
-Flat vector illustration portrait, headshot of a dynamic man in his late 30s, short brown hair with a modern side part, light stubble, confident smile, wearing a navy blue zip-up sweater over a white collared shirt, soft pastel palette with steel blue and slate grey tones, clean neutral background with very faint road or route line patterns, centered composition, shoulders up, 1:1 square ratio, modern editorial style, energetic friendly expression.
+Flat vector illustration portrait, headshot of a relaxed young man in his late twenties, short dark hair with a light beard trimmed close, easy half-smile, wearing a mustard crewneck sweater over a white t-shirt, warm pastel palette with mustard and soft teal tones, clean neutral background with a faint suggestion of a coffee cup seen from above, centered composition, shoulders up, 1:1 square ratio, modern editorial style, casual confident expression.
 ```
 
-Destination : `static/images/authors/kevin-moreau.webp`
+Destination : `static/images/authors/bastien-delorme.webp`
 
-## Sophie Martin — Finance & patrimoine
+## Si un quatrieme auteur devient necessaire
 
-```
-Flat vector illustration portrait, headshot of a poised woman in her early 40s, chin-length straight dark brown bob haircut, subtle professional makeup, composed confident smile, wearing a charcoal grey structured blazer over a white blouse with a simple silver earring visible, soft pastel palette with deep blue and warm beige tones, clean neutral background with very subtle geometric patterns, centered composition, shoulders up, 1:1 square ratio, modern financial editorial style, trustworthy professional expression.
-```
-
-Destination : `static/images/authors/sophie-martin.webp`
-
-## Workflow de generation
-
-1. Generer chaque image via un generateur AI (Midjourney, DALL-E, Stable Diffusion) avec le prompt ci-dessus
-2. Sauvegarder en PNG ou JPG 512x512 (ou plus)
-3. Convertir en WebP : `cwebp -q 85 input.png -o static/images/authors/[id].webp`
-4. Verifier la coherence visuelle : tous les avatars doivent avoir le meme style graphique (flat illustration, palette pastel, fond neutre) pour une identite editoriale unifiee
+Il faut d'abord creer le persona en suivant `../../../100 Areas/seo_freelance/Reddit/parc-reddit/personas/_METHODE.md` (9 etapes, dont le controle anti-doublon ecrit). **Ne jamais ajouter un avatar sans fiche persona** : un auteur sans persona devient mecaniquement un auteur fourre-tout, et c'est exactement ce qui a tue les premiers comptes du parc pro.

@@ -88,7 +88,7 @@ Le fichier `MEMORY.md` a la racine trace tous les articles publies, classes par 
     ├── hugo-workflow.yml     ← GitHub Actions CI/CD (Hugo 0.161.1 extended)
     ├── roadmap-template.yaml ← Squelette de roadmap editoriale evergreen
     ├── main.css              ← CSS avec variables de charte graphique
-    ├── data/                 ← authors.yaml (6 auteurs bilingues) + prompts d'avatars
+    ├── data/                 ← authors.yaml (les 3 personas du parc) + prompts d'avatars
     ├── articles/             ← Templates d'articles par type
     ├── seo/                  ← Fichiers SEO techniques (robots.txt, llms.txt, schemas JSON-LD)
     ├── layouts/              ← Templates Hugo (home, single, list, sitemap HTML, 404)

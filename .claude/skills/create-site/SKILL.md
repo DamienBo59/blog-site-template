@@ -235,7 +235,9 @@ mkdir -p data
 cp .claude/templates/data/authors.yaml data/authors.yaml
 ```
 
-Ce fichier contient les 6 auteurs : Thomas Durand (tech), Magalie Ergoz (mode/beaute), Claire Beaumont (maison), Laura Verdier (sante), Kevin Moreau (transport), Sophie Martin (finance). Hugo le lit nativement via `.Site.Data.authors`.
+Ce fichier contient les **3 auteurs du parc perso**, qui sont aussi ses 3 personas Reddit : Hélène Vasseur (thé, `mamie-the.fr`), Marion Kieffer (patisserie et gouter, `gouter-gourmand.fr`), Bastien Delorme (brunch et petit dejeuner, `brunch-story.fr`). Hugo le lit nativement via `.Site.Data.authors`.
+
+⚠️ **Un blog = un seul auteur, celui de sa thematique.** Ne pas copier les 3 auteurs sur chaque blog : ne garder que celui du blog cree. Un auteur qui signe sur deux blogs du parc relie les deux sites, et un blog a deux voix est un signal. Lire sa fiche persona avant d'ecrire quoi que ce soit : Drive perso, `100 Areas/seo_freelance/Reddit/parc-reddit/personas/`.
 
 ### Copier les avatars
 
@@ -250,7 +252,7 @@ fi
 ```
 
 Si les fichiers avatars ne sont pas encore presents dans le template, informer le consultant :
-> "Les avatars des 6 auteurs sont a generer manuellement via un generateur AI (Midjourney, DALL-E). Les prompts sont dans `.claude/templates/data/avatar-prompts.md`. Une fois generes, placer les fichiers WebP dans `static/images/authors/[id].webp`."
+> "L'avatar de l'auteur du blog est a generer manuellement via un generateur AI (Midjourney, DALL-E). Les prompts des 3 auteurs du parc sont dans `.claude/templates/data/avatar-prompts.md`. Une fois genere, placer le fichier WebP dans `static/images/authors/[id].webp`."
 
 Le site fonctionne meme sans les avatars (fallback placeholder avec 1ere lettre du nom), mais les avatars renforcent l'E-E-A-T et la credibilite aupres des LLMs et des lecteurs.
 
@@ -310,7 +312,7 @@ Chaque paire FR/EN partage le meme `translationKey` (ex: `translationKey: "artic
 
 Les articles doivent etre courts (300-500 mots) mais correctement structures :
 - Frontmatter complet (`date`, `lastmod`, `categories` dans la langue de l'article, `tags` traduits, `translationKey`, `faq` avec 3+ questions, `image` + `imageAlt` + `imageCredit`)
-- `author: [ID-AUTEUR]` (slug qui correspond a une cle de `data/authors.yaml`, ex: `thomas-durand`). Selectionner l'auteur le plus pertinent selon la thematique du site (ex: blog tech → Thomas Durand, blog maison → Claire Beaumont). Voir la regle de selection automatique documentee dans `/create-article-geo`
+- `author: [ID-AUTEUR]` (slug qui correspond a une cle de `data/authors.yaml`). **C'est l'auteur unique du blog**, celui de sa thematique : `helene-vasseur` pour le the, `marion-kieffer` pour la patisserie et le gouter, `bastien-delorme` pour le brunch et le petit dejeuner
 - H2/H3 descriptifs
 - Un tableau ou une liste
 - `draft: false`
@@ -390,7 +392,7 @@ Remplir la section "Contexte du site" du CLAUDE.md avec toutes les informations 
 - Polices choisies
 - Categories (mapping FR ↔ EN obligatoire, ex: "Thes verts / Green teas")
 - Langue principale (la langue secondaire EN est toujours active)
-- **Auteur principal du site** : ID de l'auteur (dans `data/authors.yaml`) le plus pertinent pour la thematique du site. Ex: pour un blog tech, `thomas-durand`. Cet auteur sera utilise par defaut pour les articles, mais `/create-article-geo` peut selectionner dynamiquement un autre auteur selon le sujet specifique de chaque article
+- **Auteur du site** : ID de **l'unique** auteur du blog, celui de sa thematique. C'est un persona du parc, il signe tous les articles de ce blog et aucun article d'un autre blog. Sa fiche est dans le Drive perso, `100 Areas/seo_freelance/Reddit/parc-reddit/personas/`, et elle prime sur le YAML
 
 ## Etape 10 — Build de verification
 

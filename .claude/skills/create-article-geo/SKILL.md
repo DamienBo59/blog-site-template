@@ -78,7 +78,7 @@ Si l'utilisateur ne sait pas quel type choisir, l'aider en analysant l'intention
 
 ## Etape 1.3 — Selection automatique de l'auteur
 
-Chaque article est signe par un auteur pris dans `data/authors.yaml` (6 auteurs fictifs disponibles par defaut sur tous les sites generes par ce template). Le choix de l'auteur est **automatique** selon la pertinence thematique.
+Chaque article est signe par l'auteur pris dans `data/authors.yaml`. **Sur un blog du parc perso il n'y en a qu'un**, celui de la thematique du blog, et c'est un persona qui porte aussi un compte Reddit. **Lire sa fiche persona avant de rediger** (Drive perso, `100 Areas/seo_freelance/Reddit/parc-reddit/personas/`) : elle porte sa voix et surtout ses faits engages, qu'un article ne doit jamais contredire.
 
 ### Algorithme de selection
 
@@ -95,12 +95,11 @@ Chaque article est signe par un auteur pris dans `data/authors.yaml` (6 auteurs 
 
 | Sujet article | Auteur selectionne | Raison |
 |---------------|-------------------|--------|
-| "Meilleur CRM SaaS 2026" | thomas-durand | topic "saas", expertise "SaaS", "Outils de productivite" |
-| "Comment choisir son oreiller" | laura-verdier (sommeil) OU claire-beaumont | selon la categorie : sante/bien-etre → Laura, maison/literie → Claire |
-| "SCPI ou assurance vie" | sophie-martin | topics "scpi", "assurance vie" |
-| "Meilleure trottinette electrique" | kevin-moreau | topics "trottinette", "mobilite" |
-| "Parfums pour l'ete" | magalie-ergoz | expertise "Parfums" |
-| "Travaux renovation cuisine" | claire-beaumont | expertise "Renovation" |
+| "Quelle temperature pour un the vert" | helene-vasseur | topics "the vert", "temperature d'infusion" |
+| "Rattraper une pate a choux trop liquide" | marion-kieffer | topics "pate a choux", expertise "Pates de base" |
+| "Brunch a Lyon, les formules qui valent le prix" | bastien-delorme | topics "brunch", "formule brunch" |
+
+⚠️ **En pratique, sur un blog du parc perso, il n'y a qu'UN auteur** : celui de la thematique du blog. La selection automatique n'a donc rien a arbitrer, elle confirme. Si le sujet d'un article ne correspond pas a l'auteur du blog, ce n'est pas un probleme d'auteur, **c'est que l'article est hors sujet pour ce blog** : ne pas le publier ici. La table ci-dessus sert a comprendre le mecanisme, pas a choisir entre trois signatures.
 
 ### Confirmation au consultant
 
@@ -120,7 +119,7 @@ Le consultant peut override manuellement en indiquant un autre ID d'auteur. Si p
 Utiliser l'ID (slug) de l'auteur, pas son nom complet :
 
 ```yaml
-author: thomas-durand
+author: helene-vasseur
 ```
 
 Hugo resoudra automatiquement les infos (nom, avatar, bio, role) depuis `data/authors.yaml` dans les templates (`seo-head.html` pour le JSON-LD, `single.html` pour le bloc auteur en bas d'article).
@@ -244,7 +243,7 @@ Les deux versions ont le meme schema de frontmatter, avec le champ `translationK
 | `lastmod` | Date du jour (YYYY-MM-DD), identique a `date` a la creation |
 | `categories` | La categorie choisie, **dans la langue de l'article** (FR : "Thes verts", EN : "Green teas"). Le mapping FR↔EN est documente dans le CLAUDE.md du site |
 | `tags` | 3-6 tags pertinents, **dans la langue de l'article** (traduits en EN) |
-| `author` | **ID-slug de l'auteur** (ex: `thomas-durand`), cle de `data/authors.yaml`. Selectionne automatiquement a l'etape 1.3 selon la pertinence thematique. Meme ID pour les 2 versions FR et EN (les libelles jobTitle/role/bio sont automatiquement bilingues via le YAML) |
+| `author` | **ID-slug de l'auteur** unique du blog (ex: `helene-vasseur`), cle de `data/authors.yaml`. Meme ID pour les 2 versions FR et EN (les libelles jobTitle/role/bio sont automatiquement bilingues via le YAML) |
 | `image` | Chemin vers l'image hero (OBLIGATOIRE, rempli automatiquement a l'etape 1.5 par `fetch-image.sh`). **Meme image pour FR et EN** (on ne double pas le telechargement) |
 | `imageAlt` | Texte alt de l'image (OBLIGATOIRE). **Traduit dans la langue de l'article** (FR : en francais, EN : en anglais). Max 125 caracteres |
 | `imageCredit` | Credit photo (OBLIGATOIRE, rempli automatiquement). Meme credit dans les 2 langues |
