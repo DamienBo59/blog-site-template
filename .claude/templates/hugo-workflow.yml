@@ -3,6 +3,11 @@ name: Deploy Hugo site to Pages
 on:
   push:
     branches: ["main"]
+  # Rebuild programme : indispensable pour reveler les articles a publishDate future
+  # de la roadmap. Sans lui, un article date en avance ne sortirait jamais tout seul,
+  # car buildFuture est a false et le workflow ne se declenche que sur push.
+  schedule:
+    - cron: "0 4 * * 2,5"
   workflow_dispatch:
 
 permissions:
