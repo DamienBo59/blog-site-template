@@ -3,6 +3,11 @@ name: Deploy Hugo site to Pages
 on:
   push:
     branches: ["main"]
+  # Rebuild programme : indispensable pour reveler les articles a publishDate future
+  # de la roadmap. Sans lui, un article date en avance ne sortirait jamais tout seul,
+  # car buildFuture est a false et le workflow ne se declenche que sur push.
+  schedule:
+    - cron: "0 4 * * 2,5"
   workflow_dispatch:
 
 permissions:
@@ -20,7 +25,7 @@ jobs:
     steps:
       - name: Install Hugo CLI
         run: |
-          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.139.0/hugo_extended_0.139.0_linux-amd64.deb
+          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v0.161.1/hugo_extended_0.161.1_linux-amd64.deb
           sudo dpkg -i ${{ runner.temp }}/hugo.deb
 
       - name: Checkout
