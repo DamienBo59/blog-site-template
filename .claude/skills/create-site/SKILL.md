@@ -55,9 +55,21 @@ rm -rf themes/[nom-du-theme]/assets/*
 # Supprimer le hugo.toml du theme (il interfere avec le hugo.toml principal)
 rm -f themes/[nom-du-theme]/hugo.toml
 
-# Supprimer le archetype par defaut du theme (on utilise celui a la racine)
-rm -f themes/[nom-du-theme]/archetypes/default.md
+# Supprimer le reste du scaffold : contenu de demo, data, i18n et statiques du theme
+rm -rf themes/[nom-du-theme]/content
+rm -rf themes/[nom-du-theme]/data
+rm -rf themes/[nom-du-theme]/i18n
+rm -rf themes/[nom-du-theme]/static
+rm -rf themes/[nom-du-theme]/archetypes
 ```
+
+⚠️ **Ce nettoyage-la n'est pas cosmetique, verifie le 2026-09-06 sur `brunch-story.fr`.** `hugo new theme` depose trois choses nuisibles :
+
+- `themes/[theme]/content/` contient **`posts/post-1` a `post-3`**, du contenu de demo qui se retrouve **publie et indexable** a `/posts/` si on ne le supprime pas.
+- `themes/[theme]/static/favicon.ico` est un **disque gris uni**. C'est l'origine du point gris observe dans les SERP de `mamie-the.fr` en aout 2026 : Google privilegie `/favicon.ico` sur le `favicon.svg`, donc le fichier du scaffold gagne contre le vrai logo.
+- `themes/[theme]/i18n/` et `data/` peuvent masquer les fichiers du site.
+
+Apres ce nettoyage, verifier avec `hugo` puis `ls public/` qu'il ne reste ni `posts/` ni favicon parasite.
 
 Apres ce nettoyage, le dossier du theme doit etre quasiment vide. On va le remplir avec nos propres fichiers a l'etape 4.
 
@@ -141,6 +153,14 @@ defaultContentLanguageInSubdir = false                 # langue principale a la 
 - Si la langue principale est deja EN, ne pas dupliquer (pas besoin de `[languages.en]` en plus)
 - Pour chaque categorie, generer le slug FR **et** le slug EN traduit
 - Il ne doit y avoir qu'UN SEUL `hugo.toml`, a la racine. Jamais dans le dossier du theme
+
+⚠️ **Categories accentuees : le dossier de la page de categorie doit porter le terme ACCENTUE.** Verifie le 2026-09-06. Hugo rattache une page de terme par le terme lui-meme, pas par l'URL. Avec une categorie « Petit dejeuner sain » ecrite « Petit déjeuner sain », le dossier doit etre `content/fr/categories/petit-déjeuner-sain/` **avec l'accent**. Un dossier `petit-dejeuner-sain` sans accent n'est jamais rattache : Hugo fabrique alors un titre en Title Case (« Petit Déjeuner Sain ») et **perd silencieusement la description SEO** de la categorie, sans aucune erreur au build.
+
+L'URL, elle, reste propre grace a `removePathAccents = true` dans le `hugo.toml` : le dossier est accentue, l'URL sort en `/categories/petit-dejeuner-sain/`. **Mettre systematiquement `removePathAccents = true`** sur un site en francais.
+
+Controle apres le build : `ls public/categories/` (URLs sans accents) et une lecture du `llms.txt` genere, ou une categorie non rattachee se voit immediatement a son titre en Title Case et a sa description vide.
+
+**Ecrire l'interface et le contenu francais AVEC les accents** (`i18n/fr.toml`, noms de categories, articles). Les anciens templates les omettaient, c'est un defaut de qualite percue sur un site publie.
 
 **Traduction automatique des categories** : Claude traduit les noms de categories du francais (ou autre) vers l'anglais, avec un vocabulaire SEO approprie. Exemples :
 - "Thes verts" → "Green teas"
@@ -251,6 +271,8 @@ if [ -d ".claude/templates/images/authors" ]; then
 fi
 ```
 
+⚠️ **Si l'avatar n'existe pas, mettre `avatar: ""` dans `data/authors.yaml`**, ne pas laisser le chemin renseigne. Le theme affiche alors un placeholder propre avec l'initiale, alors qu'un chemin vers un fichier absent sort une **image 404 dans le schema.org Person**, ce qui abime l'E-E-A-T au lieu de le renforcer. Remettre le chemin le jour ou le fichier est depose.
+
 Si les fichiers avatars ne sont pas encore presents dans le template, informer le consultant :
 > "L'avatar de l'auteur du blog est a generer manuellement via un generateur AI (Midjourney, DALL-E). Les prompts des 3 auteurs du parc sont dans `.claude/templates/data/avatar-prompts.md`. Une fois genere, placer le fichier WebP dans `static/images/authors/[id].webp`."
 
@@ -300,7 +322,22 @@ Et la version EN `content/en/plan-du-site.md` (ou `site-map.md` avec slug tradui
 Copier `.claude/templates/layouts/404.html` vers `themes/[theme]/layouts/404.html`. Hugo utilise automatiquement ce layout pour les pages introuvables. Le template 404 doit detecter la langue via `{{ .Site.Language.Lang }}` pour afficher le message en FR ou EN.
 
 ### Favicon
-Creer ou copier un fichier `static/favicon.svg` (logo du site en SVG). Si l'utilisateur n'a pas de logo, generer un simple SVG avec la premiere lettre du nom du site sur un fond colore.
+
+Creer `static/favicon.svg` (logo du site en SVG). Si l'utilisateur n'a pas de logo, generer un SVG simple et lisible a 16 px sur un fond colore.
+
+**Le SVG seul ne suffit pas** : Google privilegie `/favicon.ico` et iOS ne sait pas lire un SVG en `apple-touch-icon`. Generer la serie complete depuis le SVG (ImageMagick) :
+
+```bash
+magick -background none static/favicon.svg -resize 512x512 static/icon-512.png
+magick -background none static/favicon.svg -resize 192x192 static/icon-192.png
+magick -background none static/favicon.svg -resize 96x96  static/icon-96.png     # Google veut un carre multiple de 48
+magick -background "[COULEUR_PRIMAIRE]" static/favicon.svg -resize 180x180 -flatten static/apple-touch-icon.png  # opaque obligatoire
+magick -background none static/favicon.svg -define icon:auto-resize=48,32,16 static/favicon.ico
+```
+
+Ajouter aussi `static/site.webmanifest` (nom, icones 192 et 512, `theme_color`), et les declarations correspondantes dans `baseof.html` : `favicon.svg`, `favicon.ico`, `apple-touch-icon.png`, `manifest`, `<meta name="theme-color">`.
+
+Verifier avec `file static/favicon.ico` qu'il contient bien plusieurs tailles.
 
 ### Articles placeholder (FR + EN en parallele)
 
@@ -325,7 +362,7 @@ Les articles EN sont des **traductions fideles** des FR, pas des textes differen
 
 Lancer le skill `/seo-setup` pour generer :
 - `static/robots.txt`
-- `static/llms.txt`
+- **`llms.txt` genere par Hugo**, pas en fichier statique : copier `.claude/templates/layouts/home.llms.txt` dans `themes/[theme]/layouts/_default/home.llms.txt`, adapter les 3 placeholders, et declarer dans `hugo.toml` l'output format `LLMS` (`mediaType = "text/plain"`, `baseName = "llms"`, `isPlainText = true`) plus `[outputs] home = ["HTML", "RSS", "LLMS"]`. Un `static/llms.txt` fige devient faux des la premiere publication automatique, et personne ne le met a jour
 - Configuration du sitemap XML dans `hugo.toml`
 - Sitemap HTML (layout + page de contenu deja crees aux etapes 4 et 5)
 - Le partial `seo-head.html` est deja dans le theme

@@ -1,0 +1,34 @@
+{{/* Template de l'output format LLMS : genere /llms.txt et /en/llms.txt a chaque build,
+     donc toujours a jour apres une publication automatique. A adapter par site :
+     remplacer AUTEUR-DU-BLOG par l'id-slug de l'unique auteur, et les 2 paragraphes
+     "A propos". Requiert dans hugo.toml : [outputFormats.LLMS] + [outputs] home. */}}
+{{- $lang := .Site.Language.Lang -}}
+{{- $a := index .Site.Data.authors "AUTEUR-DU-BLOG" -}}
+# {{ .Site.Title }}
+
+> {{ .Site.Params.description }}
+
+## {{ if eq $lang "en" }}About{{ else }}A propos{{ end }}
+
+{{ if eq $lang "en" -}}
+[NOM_DU_SITE] is an independent blog about [SUBJECT], written by {{ $a.name }}, {{ (index $a.jobTitle "en") | lower }}. [ONE SENTENCE ON THE METHOD AND WHAT MAKES THE BLOG USEFUL.]
+{{- else -}}
+[NOM_DU_SITE] est un blog independant sur [SUJET], ecrit par {{ $a.name }}, {{ (index $a.jobTitle "fr") | lower }}. [UNE PHRASE SUR LA METHODE ET CE QUI REND LE BLOG UTILE.]
+{{- end }}
+
+## {{ if eq $lang "en" }}Main content{{ else }}Contenu principal{{ end }}
+
+{{ range .Site.Taxonomies.categories -}}
+- [{{ .Page.Title }}]({{ .Page.Permalink }}) : {{ .Page.Description }} ({{ .Count }} {{ i18n "article" .Count }})
+{{ end }}
+## {{ if eq $lang "en" }}Articles{{ else }}Articles{{ end }}
+
+{{ range (where .Site.RegularPages "Section" "blog").ByDate.Reverse -}}
+- [{{ .Title }}]({{ .Permalink }}) : {{ .Description }}
+{{ end }}
+## {{ if eq $lang "en" }}Technical information{{ else }}Informations techniques{{ end }}
+
+- {{ if eq $lang "en" }}Generator{{ else }}Generateur{{ end }} : Hugo
+- {{ if eq $lang "en" }}Hosting{{ else }}Hebergement{{ end }} : GitHub Pages
+- Sitemap : {{ "sitemap.xml" | absLangURL }}
+- RSS : {{ "index.xml" | absLangURL }}

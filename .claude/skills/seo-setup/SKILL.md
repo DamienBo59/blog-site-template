@@ -20,8 +20,14 @@ Tous les fichiers de reference sont dans `.claude/templates/seo/`. **Toujours li
 
 ### 2. llms.txt
 
-- **Template** : `.claude/templates/seo/llms.txt`
-- **Destination** : `static/llms.txt`
+⚠️ **Depuis le 2026-09-06, le llms.txt se GENERE par Hugo**, il n'est plus un fichier statique. Un fichier fige devient faux des la premiere publication et personne ne le met a jour.
+
+- **Template** : `.claude/templates/layouts/home.llms.txt`
+- **Destination** : `themes/[theme]/layouts/_default/home.llms.txt`
+- **Config** : output format `LLMS` dans `hugo.toml` (`mediaType = "text/plain"`, `baseName = "llms"`, `isPlainText = true`) et `[outputs] home = ["HTML", "RSS", "LLMS"]`
+- **Resultat** : `/llms.txt` et `/en/llms.txt`, a jour a chaque build
+
+L'ancien template statique `.claude/templates/seo/llms.txt` est conserve pour reference, ne plus l'utiliser.
 - Remplacer les variables avec les informations du site (lire le CLAUDE.md et les articles existants dans `content/blog/`)
 - Variables a remplacer : `{{SITE_NAME}}`, `{{SITE_DESCRIPTION}}`, `{{SITE_ABOUT}}`, `{{CATEGORIES_LIST}}`, `{{RECENT_ARTICLES}}`, `{{BASE_URL}}`
 

@@ -1,13 +1,14 @@
 {{ define "main" }}
+{{ $lang := .Site.Language.Lang }}
 
 <article class="single-article">
     <div class="container">
 
         <!-- Breadcrumb visuel -->
-        <nav class="breadcrumb" aria-label="Fil d'Ariane">
+        <nav class="breadcrumb" aria-label="{{ if eq $lang "en" }}Breadcrumb{{ else }}Fil d'Ariane{{ end }}">
             <ol class="breadcrumb-list">
                 <li class="breadcrumb-item">
-                    <a href="{{ "/" | relURL }}">Accueil</a>
+                    <a href="{{ "/" | relURL }}">{{ if eq $lang "en" }}Home{{ else }}Accueil{{ end }}</a>
                     <svg class="breadcrumb-sep" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 4 10 8 6 12" /></svg>
                 </li>
                 <li class="breadcrumb-item">
@@ -38,16 +39,15 @@
                     <span class="meta-separator">·</span>
                     <span class="article-reading-time">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                        {{ .ReadingTime }} min de lecture
+                        {{ .ReadingTime }} {{ if eq $lang "en" }}min read{{ else }}min de lecture{{ end }}
                     </span>
                 </div>
 
-                <h1 class="article-title">{{ .Title }}</h1>
+                <h1 class="article-title">{{ .Params.h1 | default .Title }}</h1>
                 {{ with .Description }}
                 <p class="article-description">{{ . }}</p>
                 {{ end }}
 
-                {{ $lang := .Site.Language.Lang }}
                 {{ $authorData := dict }}
                 {{ with .Params.author }}
                     {{ $authorData = index hugo.Data.authors . }}
@@ -100,10 +100,10 @@
             {{ $headings := .TableOfContents }}
             {{ if $headings }}
             <aside class="article-sidebar">
-                <nav class="toc" aria-label="Sommaire">
+                <nav class="toc" aria-label="{{ if eq $lang "en" }}Table of contents{{ else }}Sommaire{{ end }}">
                     <div class="toc-title">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="15" y2="12" /><line x1="3" y1="18" x2="18" y2="18" /></svg>
-                        Sommaire
+                        {{ if eq $lang "en" }}Table of contents{{ else }}Sommaire{{ end }}
                     </div>
                     {{ .TableOfContents }}
                 </nav>
@@ -153,7 +153,7 @@
                 {{ $related := .Site.RegularPages.Related . | first 3 }}
                 {{ if $related }}
                 <aside class="related-articles">
-                    <h2 class="related-title">Articles similaires</h2>
+                    <h2 class="related-title">{{ if eq $lang "en" }}Related articles{{ else }}Articles similaires{{ end }}</h2>
                     <div class="related-grid">
                         {{ range $related }}
                         <a href="{{ .RelPermalink }}" class="related-card">
@@ -173,13 +173,13 @@
                     <div class="article-nav">
                         {{ with .PrevInSection }}
                         <a href="{{ .RelPermalink }}" class="nav-prev">
-                            <span class="nav-label">Article precedent</span>
+                            <span class="nav-label">{{ if eq $lang "en" }}Previous article{{ else }}Article precedent{{ end }}</span>
                             <span class="nav-title">{{ .Title }}</span>
                         </a>
                         {{ end }}
                         {{ with .NextInSection }}
                         <a href="{{ .RelPermalink }}" class="nav-next">
-                            <span class="nav-label">Article suivant</span>
+                            <span class="nav-label">{{ if eq $lang "en" }}Next article{{ else }}Article suivant{{ end }}</span>
                             <span class="nav-title">{{ .Title }}</span>
                         </a>
                         {{ end }}

@@ -42,7 +42,10 @@ jobs:
         env:
           HUGO_CACHEDIR: ${{ runner.temp }}/hugo_cache
           HUGO_ENVIRONMENT: production
-        run: hugo --gc --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+        # Pas de --baseURL : celui du hugo.toml fait foi. steps.pages.outputs.base_url
+        # renvoie l'URL github.io tant que le custom domain n'est pas lu par l'action,
+        # ce qui generait tout le site avec de mauvaises URL canoniques.
+        run: hugo --gc --minify
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
